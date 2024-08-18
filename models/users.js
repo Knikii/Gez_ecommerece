@@ -5,16 +5,20 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const users = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, "Please enter your name"],
-        maxLength: [30, "Your name cannot exceed 30 characters"],
+    googleId: {
+      type: String,
+      unique: true, // This ensures the field must have a value
+      sparse:true
     },
     email: {
         type: String,
-        required: [true, "Please enter your email"],
+        sparse:true,
         unique: true,
         validate: [validator.isEmail, "Please enter valid email address"],
+    },
+    fullName: {
+      type: String,
+      required: true,
     },
     phone: {
         type: String,
@@ -25,11 +29,6 @@ const users = new mongoose.Schema({
         type: String,
         required: [false, "Please enter your address"],
         maxLength: [200, "Your address cannot exceed 200 characters"],
-    },
-    password: {
-        type: String,
-        required: [true, "Please enter your password"],
-        minlength: [6, "Your password must be longer than 6 characters"],
     },
     avatar: {
         public_id: {
@@ -49,8 +48,6 @@ const users = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
 });
 
 module.exports = mongoose.model('users',users)

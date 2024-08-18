@@ -1,6 +1,7 @@
 const express = require('express')
 const users = require('../models/users')
 const nodemailer = require('nodemailer');
+const passport = require('passport')
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -128,6 +129,17 @@ router.post('/verifyotp', async (req, res) => {
     }
   });
   
+router.get('/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] })
+  );
+  
+router.get('/google/callback',
+    passport.authenticate('google', { session: false }),
+    (req, res) => {
+      res.json({ token: req.user.token });
+    }
+  );
+
 
 // router.post('/forgotPassword', async (req, res) => {
 //     try {

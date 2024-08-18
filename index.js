@@ -4,6 +4,7 @@ const product = require('./controller/product')
 const cart = require('./controller/cart')
 const limiter = require('./middleware/ratelimit')
 const connectdb = require('./config/dbconnection');
+const passport = require('passport');
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerJSDoc = require('swagger-jsdoc');
 // const swaggerSpec = require('./config/swaggerconf');
@@ -12,6 +13,10 @@ const app = express()
 const port = 8080
 
 connectdb()
+
+require('./config/passport');
+app.use(passport.initialize());
+
 app.use(express.json());
 app.use(limiter);
 
