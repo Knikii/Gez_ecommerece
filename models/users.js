@@ -18,11 +18,12 @@ const users = new mongoose.Schema({
     },
     fullName: {
       type: String,
-      required: true,
+      
     },
     phone: {
         type: String,
-        required: [false, "Please enter your phone number"],
+        sparse:true,
+        unique:true,
         maxLength: [200, "Your phone number cannot exceed 200 characters"],
     },
     address: {
